@@ -9,8 +9,45 @@ firebase.initializeApp(config);
 const auth = firebase.auth();
 
 class App extends Component {
+  state = {
+    loggedIn: false,
+    isNewUser: null,
+    uid: '',
+    refreshToken: '',
+  };
+  login = async () => {
+    const resp = await auth.signInAnonymously();
+    console.log(resp);
+    const { isNewUser } = resp.additionalUserInfo;
+    const { uid, refreshToken } = resp.user;
+    this.setState({
+      loggedIn: true,
+      isNewUser,
+      uid,
+      refreshToken,
+    });
+  };
+  logout = async () => {
+    const resp = await auth.signOut();
+    console.log(resp);
+    this.setState({
+      loggedIn: false,
+    });
+  };
   render() {
-    return <div>hi</div>;
+    return (
+      <div>
+        <button onClick={() => this.login()}>LOGIN</button>
+        <button onClick={() => this.logout()}>LOGOUT</button>
+        {this.state.loggedIn && (
+          <React.Fragment>
+            <p>uid: {this.state.uid}</p>
+            <p>isNewUser: {this.state.isNewUser ? 'YES' : 'NO'}</p>
+            <p>refreshToken: {this.state.refreshToken}</p>
+          </React.Fragment>
+        )}
+      </div>
+    );
   }
 }
 
