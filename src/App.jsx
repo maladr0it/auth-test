@@ -16,12 +16,16 @@ class App extends Component {
     refreshToken: '',
   };
   login = async () => {
+    this.setState({
+      loading: true,
+    });
     const resp = await auth.signInAnonymously();
     console.log(resp);
     const { isNewUser } = resp.additionalUserInfo;
     const { uid, refreshToken } = resp.user;
     this.setState({
       loggedIn: true,
+      loading: false,
       isNewUser,
       uid,
       refreshToken,
@@ -32,6 +36,7 @@ class App extends Component {
     console.log(resp);
     this.setState({
       loggedIn: false,
+      loading: false,
     });
   };
   render() {
@@ -40,11 +45,15 @@ class App extends Component {
         <br />
         <br />
         <div>
-          <button onClick={() => this.login()}>LOGIN</button>
+          <button onClick={() => this.login()} disabled={this.state.loading || this.state.loggedIn}>
+            LOGIN
+          </button>
           <button onClick={() => this.logout()}>LOGOUT</button>
         </div>
         <p>
-          <a href="https://enigmatic-everglades-92240.herokuapp.com/">visit site</a>
+          <a href="https://enigmatic-everglades-92240.herokuapp.com/">
+            <h2>self-link - hold to copy</h2>
+          </a>
         </p>
         {this.state.loggedIn && (
           <React.Fragment>
