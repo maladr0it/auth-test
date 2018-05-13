@@ -37,8 +37,15 @@ class App extends Component {
   render() {
     return (
       <div>
-        <button onClick={() => this.login()}>LOGIN</button>
-        <button onClick={() => this.logout()}>LOGOUT</button>
+        <br />
+        <br />
+        <div>
+          <button onClick={() => this.login()}>LOGIN</button>
+          <button onClick={() => this.logout()}>LOGOUT</button>
+        </div>
+        <p>
+          <a href="https://enigmatic-everglades-92240.herokuapp.com/">visit site</a>
+        </p>
         {this.state.loggedIn && (
           <React.Fragment>
             <p>uid: {this.state.uid}</p>
